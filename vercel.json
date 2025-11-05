@@ -5,8 +5,8 @@
             "src": "app.py",
             "use": "@vercel/python",
             "config": {
-                "runtime": "python3.9",
-                "maxLambdaSize": "50mb",
+                "runtime": "python3.10",
+                "maxLambdaSize": "250mb",
                 "includeFiles": ["templates/**", "static/**", "migrations/**"],
                 "systemPackages": ["build-essential", "cmake", "libopenblas-dev", "liblapack-dev", "libgl1-mesa-glx"]
             }
@@ -16,7 +16,5 @@
         }
     ],
     "routes": [{ "src": "/(.*)", "dest": "app.py" }],
-    "env": {
-        "PYTHON_VERSION": "3.9"
-    }
+    "env": {}
 }
