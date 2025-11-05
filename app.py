@@ -498,15 +498,15 @@ def edit_employee_manual(employee_id):
                     employee.face_encoding = pickle.dumps(encodings[0]) # Update with new encoding
             
 
-            if old_name != employee.name:
-                old_image_path = os.path.join(KNOWN_FACES_DIR, f"{old_name}.jpg")
-                new_image_path = os.path.join(KNOWN_FACES_DIR, f"{employee.name}.jpg")
-                if os.path.exists(old_image_path):
-                    try:
-                        os.rename(old_image_path, new_image_path)
-                    except OSError as e:
-                        print(f"Error renaming image file from {old_image_path} to {new_image_path}: {e}")
-                        flash(f'Could not rename old image file for {old_name}. Manual intervention may be needed.', 'warning')
+            # if old_name != employee.name:
+            #     old_image_path = os.path.join(KNOWN_FACES_DIR, f"{old_name}.jpg")
+            #     new_image_path = os.path.join(KNOWN_FACES_DIR, f"{employee.name}.jpg")
+            #     if os.path.exists(old_image_path):
+            #         try:
+            #             os.rename(old_image_path, new_image_path)
+            #         except OSError as e:
+            #             print(f"Error renaming image file from {old_image_path} to {new_image_path}: {e}")
+            #             flash(f'Could not rename old image file for {old_name}. Manual intervention may be needed.', 'warning')
 
             db.session.commit()
             flash(f'Employee "{employee.name}" updated successfully!', 'success')
@@ -545,11 +545,11 @@ def delete_employee_manual(employee_id):
         db.session.delete(employee) # Delete the employee
         db.session.commit()
 
-        # Delete the associated image file from the file system
-        image_path = os.path.join(KNOWN_FACES_DIR, f"{employee.name}.jpg")
-        if os.path.exists(image_path):
-            os.remove(image_path)
-            print(f"Deleted image file: {image_path}") # For debugging
+        # # Delete the associated image file from the file system (This part is not needed on Vercel)
+        # image_path = os.path.join(KNOWN_FACES_DIR, f"{employee.name}.jpg")
+        # if os.path.exists(image_path):
+        #     os.remove(image_path)
+        #     print(f"Deleted image file: {image_path}") # For debugging
 
         flash(f'Employee "{employee.name}" and all associated records deleted successfully!', 'success')
     except Exception as e:
