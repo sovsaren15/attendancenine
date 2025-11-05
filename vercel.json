@@ -7,8 +7,8 @@
             "config": {
                 "runtime": "python3.9",
                 "maxLambdaSize": "50mb",
-                "includeFiles": ["templates/**", "static/**"],
-                "systemPackages": ["build-essential", "cmake", "libgl1-mesa-glx"]
+                "includeFiles": ["templates/**", "static/**", "migrations/**"],
+                "systemPackages": ["build-essential", "cmake", "libopenblas-dev", "liblapack-dev", "libgl1-mesa-glx"]
             }
         },
         {

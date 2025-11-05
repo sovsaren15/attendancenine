@@ -15,7 +15,10 @@ import pickle
 import pytz  
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg://postgres:123@localhost:5432/smart_attendance'
+
+# Use environment variable for database URI, with a local fallback for development
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('POSTGRES_URL', 'postgresql+psycopg://postgres:123@localhost:5432/smart_attendance')
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_super_secret_key_here' 
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
@@ -413,7 +416,9 @@ def add_employee_manual():
                 # It's safer to save the original image if you need it for re-training later
                 # For now, we'll just process it in memory or a temp file.
                 # If saving, use a secure filename (e.g., UUID or employee ID)
-                temp_image_path = os.path.join(KNOWN_FACES_DIR, f"temp_upload_{name}_{get_cambodia_time().strftime('%Y%m%d%H%M%S')}.jpg")
+                # Use /tmp for Vercel's writable directory
+                temp_dir = '/tmp' if 'VERCEL' in os.environ else KNOWN_FACES_DIR
+                temp_image_path = os.path.join(temp_dir, f"temp_upload_{name}_{get_cambodia_time().strftime('%Y%m%d%H%M%S')}.jpg")
                 image_file.save(temp_image_path) # Save to a temporary path
 
                 img = face_recognition.load_image_file(temp_image_path)
@@ -478,7 +483,9 @@ def edit_employee_manual(employee_id):
 
         try:
             if image_file and image_file.filename != '':
-                temp_image_path = os.path.join(KNOWN_FACES_DIR, f"temp_upload_{employee.name}_{get_cambodia_time().strftime('%Y%m%d%H%M%S')}.jpg")
+                # Use /tmp for Vercel's writable directory
+                temp_dir = '/tmp' if 'VERCEL' in os.environ else KNOWN_FACES_DIR
+                temp_image_path = os.path.join(temp_dir, f"temp_upload_{employee.name}_{get_cambodia_time().strftime('%Y%m%d%H%M%S')}.jpg")
                 image_file.save(temp_image_path)
                 
                 img = face_recognition.load_image_file(temp_image_path)
