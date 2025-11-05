@@ -1,0 +1,15 @@
+# Set default behavior for all files to handle line endings automatically.
+# This will normalize all text files to LF in the repository.
+* text=auto
+
+# Explicitly declare common text files to ensure they are normalized.
+*.py text
+*.txt text
+*.ini text
+*.mako text
+*.md text
+
+# Specify files that should be treated as binary and not have their line endings changed.
+*.png binary
+*.jpg binary
+*.jpeg binary
